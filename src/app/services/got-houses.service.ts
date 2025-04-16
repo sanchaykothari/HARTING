@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 
 
@@ -21,5 +22,10 @@ export class GotHousesService {
   getHouse(houseNO: any): Observable<any>{
     const url = this.apiUrl + "/" + houseNO;
     return this.http.get<any>(url);
+  }
+  getMembers(membersUrlArr: string[]): Observable<any[]>{
+    const requests = membersUrlArr.map(url => this.http.get<any>(url));
+    console.log(requests);
+    return forkJoin(requests);
   }
 }

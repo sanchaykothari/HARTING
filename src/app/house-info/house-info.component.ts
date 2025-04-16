@@ -1,34 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GotHousesService } from '../services/got-houses.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-house-info',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './house-info.component.html',
   styleUrl: './house-info.component.scss'
 })
-export class HouseInfoComponent {
+export class HouseInfoComponent implements OnInit, OnDestroy {
 
-  houseInfoSub! : Subscription
+  houseInfoSub!: Subscription
   page!: any;
-  houseDetails! : any;
+  houseDetails!: any;
+  swornMembersAPIs!: any;
+  swornMembers!: any;
+  emptyMembers : Boolean = false;
 
   constructor(
     private gotHouseService : GotHousesService,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    private router : Router
   ){}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.page = params['page'];
-      console.log("query param",this.page);
     });
-    this.houseInfoSub = this.gotHouseService.getHouse(this.page).subscribe((value) => {
-      this.houseDetails = value;
+
+    this.houseInfoSub = this.gotHouseService.getHouse(this.page).subscribe({
+      next: (response) => {
+        this.houseDetails = response
+        this.swornMembersAPIs = this.houseDetails?.swornMembers;
+        console.log("swornMembers",this.swornMembersAPIs);
+        if(this.swornMembersAPIs.length > 0){
+          this.emptyMembers = false;
+          console.log("inside 2nd api call");
+          this.gotHouseService.getMembers(this.swornMembersAPIs).subscribe({
+            next: (response) => {
+              this.swornMembers = response;
+              console.log("sworn members:",this.swornMembers);
+            }
+          })
+        }else{
+          this.emptyMembers = true;
+        }
+      },
+      error: (e) => this.router.navigate(['**'])
     });
+  }
+
+  goBackfn(){
+    this.router.navigate(['']);
+  }
+
+  ngOnDestroy(){
+    this.houseInfoSub.unsubscribe();
   }
 
 }
