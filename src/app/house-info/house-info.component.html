@@ -1,32 +1,32 @@
-<section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
+<section class="text-gray-600 body-font pb-5">
+    <div class="container px-5 py-20 mx-auto">
       <div class="flex flex-col text-center w-full mb-20">
         <h2 class="text-xs text-red-500 tracking-widest font-medium title-font mb-1">Region: {{houseDetails?.region}}</h2>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">{{houseDetails?.name}}</h1>
-        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">{{houseDetails?.coatOfArms}}</p>
+        <p *ngIf="houseDetails?.coatOfArms" class="lg:w-2/3 mx-auto leading-relaxed text-base">"{{houseDetails?.coatOfArms}}"</p>
       </div>
 
 
       <div class="flex flex-col text-center w-full mb-5 mt-20">
-        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">House Members</h1>
+        <h1 class="sm:text-2xl text-xl font-medium title-font mb-4 text-gray-900">House Members</h1>
         <p *ngIf="houseDetails?.founded" class="lg:w-2/3 mx-auto leading-relaxed text-base">{{houseDetails?.founded}}</p>
       </div>
       <div class="flex flex-wrap -m-2">
         <div *ngFor="let members of swornMembers; index as i" class="p-2 lg:w-1/3 md:w-1/2 w-full">
-          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+          <div class="h-full flex items-center bg-gray-900 border-gray-200 border p-4 rounded-lg">
             <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/80x80">
             <div class="flex-grow">
-              <h2 class="text-gray-900 title-font font-medium">{{members?.name}}</h2>
+              <h2 class="title-font text-white font-medium">{{members?.name}}</h2>
               <p class="text-gray-500">{{members?.gender}}</p>
             </div>
           </div>
         </div>
         <ng-container *ngIf="emptyMembers">
-          <p class="lg:w-2/3 mx-auto leading-relaxed text-base">We don't have the information of the swarn members for this house.</p>
+          <p class="lg:w-2/3 mx-auto leading-relaxed text-base text-center">Looks Like This House Do Not Have Information On The Members</p>
         </ng-container>
       </div>
     </div>
-    <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" (click)="goBackfn()">Back To Home</button>
+    <button class="flex mx-auto mt-16 text-white bg-gray-900 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg" (click)="goBackfn()">Back To Home</button>
   </section>
 
 
