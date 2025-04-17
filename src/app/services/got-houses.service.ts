@@ -25,7 +25,6 @@ export class GotHousesService {
   }
   getMembers(membersUrlArr: string[]): Observable<any[]>{
     const requests = membersUrlArr.map(url => this.http.get<any>(url));
-    console.log(requests);
     return forkJoin(requests);
   }
 }
