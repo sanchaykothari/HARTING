@@ -12,7 +12,7 @@
         <div *ngFor="let houses of bestHouses; index as i" class="p-2 lg:w-1/3 md:w-1/2 w-full">
           <div  class="h-full flex items-center border-gray-800 border p-4 rounded-lg">
             <div class="flex-grow">
-              <a href="javascript:void(0);" class="text-gray-900 title-font font-medium" (click)="toDetailsPage(i)">{{houses.name}}</a>
+              <a href="javascript:void(0);" class="text-gray-900 title-font font-medium hover:underline" (click)="toDetailsPage(i)">{{houses.name}}</a>
               <p class="text-gray-600">{{houses.region}}</p>
             </div>
           </div>

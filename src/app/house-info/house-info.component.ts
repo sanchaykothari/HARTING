@@ -18,6 +18,7 @@ export class HouseInfoComponent implements OnInit, OnDestroy {
   swornMembersAPIs!: any;
   swornMembers!: any;
   emptyMembers : Boolean = false;
+  isLoading:boolean = false;
 
   constructor(
     private gotHouseService : GotHousesService,
@@ -34,14 +35,13 @@ export class HouseInfoComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.houseDetails = response
         this.swornMembersAPIs = this.houseDetails?.swornMembers;
-        console.log("swornMembers",this.swornMembersAPIs);
         if(this.swornMembersAPIs.length > 0){
           this.emptyMembers = false;
-          console.log("inside 2nd api call");
+          this.isLoading = true;
           this.gotHouseService.getMembers(this.swornMembersAPIs).subscribe({
             next: (response) => {
+              this.isLoading = false;
               this.swornMembers = response;
-              console.log("sworn members:",this.swornMembers);
             }
           })
         }else{
